@@ -17,7 +17,7 @@ spring:
         enabled: false
     vault:
       enabled: true
-      token: "${VAULT_TOKEN}" # add here the generated toke  for the config server
+      token: "${VAULT_TOKEN}" # add here the generated token for the config server
       authentication: token
       kv:
         backend-version: 1
