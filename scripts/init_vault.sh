@@ -15,7 +15,7 @@ vault policy write applicationB ./policies/applicationB.hcl
 vault policy write config-server ./policies/config-server.hcl
 #write secrets
 vault write secret/applicationA @secrets/applicationA.json
-vault write secret/applicationB @secrets/applicationA.json
+vault write secret/applicationB @secrets/applicationB.json
 vault write secret/config-server @secrets/config-server.json
 #create application tokens
 # not renewable and ttl of 24h
