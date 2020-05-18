@@ -1,0 +1,28 @@
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: "vault"
+  cloud:
+    config:
+      server:
+        vault:
+          order: 1
+          profile-separator: "/"
+          kv-version: 1
+          scheme: http
+      enabled: false
+      discovery:
+        enabled: false
+    vault:
+      enabled: true
+      token: "${VAULT_TOKEN}" # add here the generated toke  for the config server
+      authentication: token
+      kv:
+        backend-version: 1
+        enabled: true
+      scheme: http
+
+server:
+  port: 9090

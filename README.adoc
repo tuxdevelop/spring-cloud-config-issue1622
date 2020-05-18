@@ -1,0 +1,54 @@
+= Spring Cloud Config Issue 1622
+
+[IMPORTANT]
+====
+https://github.com/spring-cloud/spring-cloud-config/issues/1622
+====
+
+== Setup
+
+=== Vault
+
+* Download the _Hashicorp Vault_ binary from https://www.vaultproject.io/downloads
+* Unzip the binary and run it in dev mode - _$ ./vault server -dev_
+* Safe the generated master token from the log output - _Root Token: ..._
+* Login to vault
+** _$ vault login "The master token"_
+* cd to the scripts folder of the project and run: _$ sh ./init_vault.sh_
+* The script will create
+** kv v1 store and move it to secret
+** policies for default, applicationA, applicationB & config-server with read access under _secret/${policy_name}_ and _secret/${policy_name}/**_
+** a secret for applicationA, applicationB & config-server under _secret/${name}
+** tokens for applicationA, applicationB & config-server with a _ttl_ of 24h, not renewable.
+The output is stored in _${name}.txt_.
+
+=== Config Server
+
+* Copy the the value _token_ of the file _config-server.txt_ into the _bootstrap.yml_ (Replace _"${VAULT_TOKEN}"_)
+* Start the main method of the config server _ConfigServerApplication_.
+* The Config Server will be available on port 9090
+
+== Fetch the secrets
+
+[IMPORTANT]
+====
+Please install **curl** and **jq**
+====
+
+=== applicationA
+
+* Will return the property sources
+
+[source,bash]
+----
+$ sh ./fetch_applicationA.sh ${token_from_applicationA.txt}
+----
+
+=== applicationB
+
+* Will result in a 403
+
+[source,bash]
+----
+$ sh ./fetch_applicationB.sh ${token_from_applicationB.txt}
+----
